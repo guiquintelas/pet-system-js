@@ -121,7 +121,6 @@ function validaResposta(resposta, escolha) {
         return !!resposta.filter(el => el < escolha.length && el >= 1).length;
     }
 
-    debugger
     // checa se a resposta dada é alguma das opcoes validas
     return resposta < escolha.length && resposta >= 1;
 }
