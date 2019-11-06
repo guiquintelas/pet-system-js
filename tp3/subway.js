@@ -70,16 +70,16 @@ const ordemPedido = [
     queijo,
     ingrediente,
     molhos,
-] 
+]
 
 // cria o prompt com o texto desejado 
 // ja formatando o param "escolha"
 // e retorna o input do user
 function prompText(escolha) {
     return escolha.filter((_, idx) => idx > 0)
-    .map((texto, idx) =>  idx > 0 ? `${idx} - ${texto}` : texto)
-    .join("\n");
-} 
+        .map((texto, idx) => idx > 0 ? `${idx} - ${texto}` : texto)
+        .join("\n");
+}
 
 // formata o pedido ate o momento
 // de maneira que o prompt consiga exibir
@@ -154,28 +154,28 @@ function getResposta(escolha, pedido) {
 function run() {
     for (const [idx, escolha] of ordemPedido.entries()) {
         const pedido = getPedidoAtual();
-    
+
         let resposta = getResposta(escolha, pedido);
-    
+
         // caso o usuario aperte o "cancelar" queremos
         // parar o loop
         if (!resposta) {
             break;
         }
-    
+
         // enquanto a resposta não for válida
         // sera pedido uma nova resposta
         while (!validaResposta(resposta, escolha)) {
             alert("Valor inválido");
             resposta = getResposta(escolha, pedido);
         }
-    
+
         // novamente se o usuario apertar 
         // "cancelar" queremos parar o loop
         if (!resposta) {
             break;
         }
-    
+
         // caso a escolha atual suporte reposta multipla
         // é necessario validar o usuario escolheu a opçãp "Nenhum"
         if (isEscolhaMultipla(escolha)) {
@@ -190,17 +190,17 @@ function run() {
                 // no vetor de escolhas
                 // [1,2,2] => "Mostarda, Ketchup, Ketchup"
                 escolhas[idx] = resposta
-                    .map(el => escolha[el+1])
+                    .map(el => escolha[el + 1])
                     .join(", ");
 
                 continue;
             }
         }
-    
+
         // salva a escolha no vetor de escolhas
-        escolhas[idx] = escolha[resposta+1];
+        escolhas[idx] = escolha[resposta + 1];
     }
-    
+
     alert("Finalizado!\n\n" + getPedidoAtual())
 }
 
