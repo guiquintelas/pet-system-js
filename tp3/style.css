@@ -1,0 +1,40 @@
+.navbar-expand-lg .navbar-collapse {
+    display: -ms-flexbox!important;
+    display: flex!important;
+    -ms-flex-preferred-size: auto;
+    flex-basis: auto;
+}
+.navbar-nav {
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+.navbar-nav .nav-link {
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+
+input[type='checkbox'] {
+    width: 30px;
+}
+
+.form-inline {
+    align-items: flex-end;
+}
+
+.form-inline .form-group {
+    flex-direction: column;
+    align-items: start;
+}
+
+.form-group {
+    margin-right: 15px;
+    margin-bottom: 20px !important;
+}
+
+button {
+    margin-bottom: 20px !important;
+}
+
+.alert {
+    width: fit-content;
+}
