@@ -10,6 +10,8 @@ const store = {
         },
     ],
 
-    currentPage: 'home',
+    currentPage: window.location.hash
+        ? window.location.hash.replace("#", "")
+        : 'home'
     
 }

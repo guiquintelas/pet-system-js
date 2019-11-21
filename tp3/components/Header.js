@@ -39,8 +39,7 @@ class Header extends PetElement {
 
             const hrefArray = evt.target.href.split("/");
             const href = hrefArray[hrefArray.length - 1];
-
-            console.log(href);
+            router.push(href);
         });
     }
 }
