@@ -1,7 +1,8 @@
-class Usuario extends PetElement {
-    getTemplate() {
+class Usuario extends PetPage {
+    getBody() {
         return /*template*/`
-            <div>Usuários</div>
+            <pet-table items="usuarios">
+            </pet-table>
         `
     }
 }

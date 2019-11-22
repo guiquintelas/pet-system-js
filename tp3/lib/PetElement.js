@@ -31,8 +31,12 @@ class PetElement extends HTMLElement {
             el.addEventListener("click", callback);
         }
     }
-}
 
-function createPetElement(template, ) {
+    attributeChangedCallback(attrName, oldVal, newVal) {
+        if (!this.props) {
+            this.props = {};
+        }
 
+        this.props[attrName] = newVal;
+    }
 }

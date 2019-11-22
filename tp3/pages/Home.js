@@ -1,7 +1,6 @@
-class Home extends PetElement {
-    getTemplate() {
+class Home extends PetPage {
+    getBody() {
         return /*template*/`
-            <div>Home</div>
         `
     }
 }
