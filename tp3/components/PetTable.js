@@ -2,43 +2,53 @@ class PetTable extends PetElement {
     getTemplate() {
         return /*template*/`
         <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Email</th>
-                <th scope="col">Senha</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            ${this.tbody()}
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    ${this.getHeaders()}
+                </tr>
+            </thead>
+            <tbody>
+                ${this.getTableBody()}
+            </tbody>
+        </table>
         `
     }
 
     static get observedAttributes() {
-        return ['items'];
+        return ['items', 'item-slot'];
+    }
+
+    getHeaders() {
+        const headerNames = [];
+
+        const holder = document.createElement('tr');
+        holder.innerHTML = this.getItemRow({});
+      
+        for (const td of holder.children) {
+            headerNames.push(td.dataset.name);
+        }
+
+        headerNames.push("Ações");
+        
+        return headerNames.map(name => /* template */`
+            <th scope="scol">${name}</th>
+        `).join("");
     }
 
     getItems() {
         return store[this.props.items];
     }
 
-    itemRow(item) {
-        return JSON.stringify(item);
+    getItemRow(item) {
+        return window[this.props["item-slot"]](item);
     }
 
-    tbody() {
+    getTableBody() {
         const items = store[this.props.items];
-
+        
         return items.map(item => /* template */`
             <tr>
-                <th scope="row">${item.id}</th>
-                <td>${item.name}</td>
-                <td>${item.email}</td>
-                <td>${item.password}</td>
+                ${this.getItemRow(item)}
                 <td>editar / deletar</td>
             </tr>
         `).join("");
