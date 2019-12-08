@@ -1,7 +1,9 @@
 class PetLink extends PetElement {
     getTemplate() {
         return /*template*/`
-            <a class="${this.classList.toString()}" href="${this.props.name}">
+            <a 
+                class="${this.classList.toString()} ${this.attributes.classes ? this.attributes.classes.nodeValue : ''}" 
+                href="${this.props.name}">
                 ${this.props.render}
             </a>
         `
