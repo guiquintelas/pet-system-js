@@ -14,7 +14,7 @@ class PetPage extends PetElement {
                 </div>
 
                 <div class="row" style="margin-top: 25px">
-                    <h3>${store.getCurrentPage().renderName}</h3>
+                    ${this.getBackButton()}
                 </div>
 
                 <br>
@@ -25,15 +25,20 @@ class PetPage extends PetElement {
         `
     }
 
-    adicionarBtn() {
-        if (store.currentPage != 'home') {
-            return /* template */`
-                <a class="btn btn-primary btn-lg mb-3 text-white" href="url_inserir">
-                    Adicionar
-                </a>
-            `
+    getBackButton() {
+        if (store.currentPath.length < 2) {
+            return '';
         }
 
-        return "";
+        return /* template */ `
+            <div style="display: contents">
+                <pet-link 
+                    classes="btn btn-light"
+                    style="margin-left: auto"
+                    name="${store.currentPage}" 
+                    render="Voltar"
+                ></pet-link>
+            </div>
+        `
     }
 }
