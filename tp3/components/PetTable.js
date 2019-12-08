@@ -15,7 +15,7 @@ class PetTable extends PetElement {
     }
 
     static get observedAttributes() {
-        return ['items', 'item-slot'];
+        return ['model-name', 'item-slot'];
     }
 
     getHeaders() {
@@ -43,13 +43,33 @@ class PetTable extends PetElement {
         return window[this.props["item-slot"]](item);
     }
 
+    getTableActions(item) {
+        return /* template */ `
+            <td>
+                <pet-link 
+                    classes="btn btn-outline-secondary"
+                    name="${this.props['model-name']}/${item.id}/update"
+                    render="editar"
+                ></pet-link>
+
+                <pet-link 
+                    classes="btn btn-outline-danger"
+                    name="${this.props['model-name']}/${item.id}/delete"
+                    action="deleteEntity"
+                    action-param="${item.id}"
+                    render="deletar"
+                ></pet-link>
+            </td>
+        `;
+    }
+
     getTableBody() {
-        const items = store[this.props.items];
+        const items = store[this.props["model-name"]];
         
         return items.map(item => /* template */`
             <tr>
                 ${this.getItemRow(item)}
-                <td>editar / deletar</td>
+                ${this.getTableActions(item)}
             </tr>
         `).join("");
     }
