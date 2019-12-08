@@ -1,4 +1,4 @@
-const store = {
+let store = {
     pages: [
         { 
             renderName: 'Home', 
@@ -12,13 +12,13 @@ const store = {
 
     usuarios: [
         {
-            id: 1,
+            id: "asce",
             name: "Fulano",
             email: "fulano@fulano.com",
             password: "123",
         },
         {
-            id: 2,
+            id: "aass",
             name: "Fulano 2",
             email: "fulano@fulano.com",
             password: "123",
@@ -52,6 +52,7 @@ function createEntity(data) {
     });
 
     console.log("criado!");
+    persistInLocalStore();
 
     router.push(store.currentPage);
 }
@@ -67,6 +68,7 @@ function mutateTargetEntity(data) {
     };
 
     console.log("salvo!");
+    persistInLocalStore();
 
     router.push(store.currentPage);
 }
@@ -81,6 +83,24 @@ function deleteEntity(id) {
     delete store[store.currentPage][modelIndex];
 
     console.log("deletado!");
+    persistInLocalStore();
 
     router.push(store.currentPage);
 }
+
+function initLocalStorage() {
+    const localStore = localStorage.getItem("store");
+
+    if (localStore) {
+        store = JSON.parse(localStore);
+        
+    } else {
+        persistInLocalStore();
+    }
+}
+
+function persistInLocalStore() {
+    localStorage.setItem("store", JSON.stringify(store));
+}
+
+initLocalStorage();
