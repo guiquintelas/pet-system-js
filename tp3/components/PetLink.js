@@ -10,13 +10,19 @@ class PetLink extends PetElement {
     }
 
     static get observedAttributes() {
-        return ['render', 'name'];
+        return ['render', 'name', 'action', 'action-param'];
     }
 
     init() {
         this.addEventListener('click', evt => {
              // impede que a pagina navegue
             evt.preventDefault();
+
+            if (this.props.action) {
+                window[this.props.action](this.props['action-param']);
+                return;
+            }
+
             router.push(this.props.name);
         })
     }
