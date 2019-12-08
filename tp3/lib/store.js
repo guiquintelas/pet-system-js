@@ -26,24 +26,61 @@ const store = {
     ],
 
     currentPage: null,
+    currentPath: [],
 }
 
-function setPage(name) {
-    const pathArray = name.split("/");
-    store.currentPage = pathArray[0];
-    store.currentPath = pathArray;
-}
-
-function getCurrentPage() {
-    const pagesFiltradas = store.pages.filter(page => page.name == store.currentPage);
-
-    if (pagesFiltradas.length == 0) {
-        return false;
+function getTargetEntity() {
+    if (!store.currentPath.length > 2) {
+        return null;
     }
 
-    return pagesFiltradas[0];
+    const modelId = store.currentPath[1];
+
+    const searchResult = store[store.currentPage].filter(el => el.id == modelId);
+
+    if (searchResult.length == 0) {
+        return null;
+    }
+
+    return searchResult[0];
 }
 
+function createEntity(data) {
+    store[store.currentPage].push({
+        ...data,
+        id: Math.random().toString(36).substring(2, 6),
+    });
 
-// utiliza o url para definir a pagina atual
-setPage(window.location.hash.replace("#", ""));
+    console.log("criado!");
+
+    router.push(store.currentPage);
+}
+
+function mutateTargetEntity(data) {
+    const model = getTargetEntity();
+
+    const modelIndex = store[store.currentPage].findIndex(el => el.id === model.id);
+    
+    store[store.currentPage][modelIndex] = {
+        ...model,
+        ...data
+    };
+
+    console.log("salvo!");
+
+    router.push(store.currentPage);
+}
+
+function deleteEntity(id) {
+    const modelIndex = store[store.currentPage].findIndex(el => el.id == id);
+
+    if (modelIndex < 0) {
+        return;
+    }
+    
+    delete store[store.currentPage][modelIndex];
+
+    console.log("deletado!");
+
+    router.push(store.currentPage);
+}
