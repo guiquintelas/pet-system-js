@@ -6,19 +6,53 @@ class PetInput extends PetElement {
             <div class="form-group">
                 <label>${this.props.label}</label>
 
-                <input 
-                    name="${this.props.name}" 
-                    value="${value}" 
-                    class="form-control"
-                    type="${this.props.type}"
-                    ${typeof this.props.required !== undefined ? 'required' : ''}
-                    />
+                ${this.props.type == 'select' ? 
+                    this.getSelect(value) : 
+                    this.getInput(value)}
             </div>
         `
     }
 
     static get observedAttributes() {
-        return ['label', 'name', 'required', 'type'];
+        return ['label', 'name', 'required', 'type', 'relation'];
+    }
+
+    getInput(value) {
+        return /* template */`
+            <input   
+                name="${this.props.name}" 
+                value="${value}" 
+                class="form-control"
+                type="${this.props.type}"
+                ${typeof this.props.required !== "undefined" ? 'required' : ''}
+                ${this.props.type == 'checkbox' && value === true ? 'checked' : ''}
+            />
+        `
+    }
+
+    getSelect(value) {
+        return /* template */`
+            <select   
+                name="${this.props.name}" 
+                value="${value}" 
+                class="form-control"
+                ${typeof this.props.required !== "undefined" ? 'required' : ''}
+                >
+                <option>Selecionar...</option>    
+                ${this.getOptions(value)}
+            </select>
+        `
+    }
+
+    getOptions(value) {
+        return store[this.props.relation].map(el => /* template */`
+            <option
+                ${value == el.id ? 'selected' : ''}
+                value="${el.id}"
+                >
+                ${el.name}
+            </option>
+        `).join("");
     }
 }
 

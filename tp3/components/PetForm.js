@@ -27,9 +27,21 @@ class PetForm extends PetElement {
             evt.preventDefault();
 
             const data = {};
+            
+            for (const input of form.querySelectorAll("input,select")) {
+                let value = input.value;
 
-            for (const input of form.querySelectorAll("input")) {
-                data[input.name] = input.value;
+                switch (input.type) {
+                    case "checkbox":
+                        value = input.checked;
+                        break;
+
+                    case "number":
+                        value = value ? parseFloat(value) : null;
+                        break;
+                }
+
+                data[input.name] = value;
             }
             
             if (getRouteAction() == 'create') {
