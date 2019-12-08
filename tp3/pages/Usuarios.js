@@ -1,11 +1,18 @@
-class Usuario extends PetPage {
-    getBody() {
-        return /*template*/`
-            <pet-table 
-                items="usuarios"
-                item-slot="userTable"
-            ></pet-table>
-        `
+class Usuario extends PetModelPage {
+    getParams() {
+        return {
+            modelName: "usuarios",
+            tableRowFunction: "userTable",
+            formFunction: "userForm",
+        }
+    }
+
+    getUpdatePageName() {
+        return `Editando o usuário ${getTargetEntity().name}`;
+    }
+
+    getCratePageName() {
+        return "Criando um novo Usuário";
     }
 }
 
@@ -17,5 +24,13 @@ function userTable(item) {
         <td data-name="Senha">${item.password}</td>
     `
 }
-  
+
+function userForm(item) {
+    return /* template */ `
+        <pet-input name="name" label="Nome" required></pet-input>
+        <pet-input name="email" label="Email" required type="email"></pet-input>
+        <pet-input name="password" label="Senha" required></pet-input>
+    `
+}
+
 window.customElements.define('pet-usuarios', Usuario);

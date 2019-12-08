@@ -4,10 +4,12 @@
     -ms-flex-preferred-size: auto;
     flex-basis: auto;
 }
+
 .navbar-nav {
     -ms-flex-direction: row;
     flex-direction: row;
 }
+
 .navbar-nav .nav-link {
     padding-right: .5rem;
     padding-left: .5rem;
