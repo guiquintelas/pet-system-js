@@ -1,13 +1,11 @@
 let store = {
     pages: [
-        { 
-            renderName: 'Home', 
-            name: 'home'
-        },
-        { 
-            renderName: 'Usuários', 
-            name: 'usuarios'
-        },
+        { renderName: 'Home',               name: 'home' },
+        { renderName: 'Usuários',           name: 'usuarios' },
+        { renderName: 'Consultas',          name: 'consultas' },
+        { renderName: 'Cupom de Descontos', name: 'cupoms' },
+        { renderName: 'Vacinas',            name: 'vacinas' },
+        { renderName: 'Tosas',              name: 'tosas' },
     ],
 
     usuarios: [
@@ -22,6 +20,41 @@ let store = {
             name: "Fulano 2",
             email: "fulano@fulano.com",
             password: "123",
+        },
+    ],
+
+
+    cupoms: [
+        {
+            id: "rbrf",
+            code: "PET100",
+            value: 100,
+        },
+        {
+            id: "vfee",
+            code: "PET60",
+            value: 60,
+        },
+    ],
+
+    tosas: [
+        {
+            id: "fdwd",
+            name: "Tosa 1",
+            price: 100,
+            isShower: true,
+        },
+        {
+            id: "1srf",
+            name: "Tosa Média",
+            price: 45,
+            isShower: true,
+        },
+        {
+            id: "rfasf",
+            name: "Tosa Barata",
+            price: 15,
+            isShower: false,
         },
     ],
 
