@@ -1,21 +1,27 @@
 class Router extends PetElement {
     getTemplate() {
-        const currentPage = store.pages.filter(p => p.name == store.currentPage)[0];
+        const currentPage = store.currentPage;
 
         if (!currentPage) {
             router.push('home');
             return `<pet-home></pet-home>`;
         }
 
-        return `<pet-${currentPage.name}></pet-${currentPage.name}>`;
+        return `<pet-${currentPage}></pet-${currentPage}>`;
     }
 }
 
 window.onhashchange = (evt) => {
-    store.currentPage = router.getCurrentPage();
+    const newUrl = evt.newURL.split("#");
+
+    if (newUrl.length > 1) {
+        setPage(newUrl[1]);
+    } else {
+        setPage("home");
+    }
+    
     router.refresh();
 }
-
 
 const router = {
     push(name) {
@@ -31,12 +37,6 @@ const router = {
         document.querySelector("#router").remove();
         document.querySelector("body").appendChild(newRouterElement);
     },
-
-    getCurrentPage() {
-        return window.location.hash
-            ? window.location.hash.replace("#", "")
-            : 'home'
-    }
 }
 
 function getRouteAction() {
