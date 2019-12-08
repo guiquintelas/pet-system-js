@@ -14,15 +14,20 @@ class PetPage extends PetElement {
                 </div>
 
                 <div class="row" style="margin-top: 25px">
+                    <h3>${this.getPageName()}</h3>
+
                     ${this.getBackButton()}
                 </div>
 
                 <br>
 
-                ${this.adicionarBtn()}
                 ${this.getBody()}
             </div>
         `
+    }  
+
+    getPageName() {
+        return getCurrentPage().renderName;
     }
 
     getBackButton() {
