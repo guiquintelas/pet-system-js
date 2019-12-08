@@ -7,7 +7,7 @@ window.onhashchange = (evt) => {
 const router = {
     push(name) {
         window.history.pushState({}, "", `#${name}`);
-        store.currentPage = name;
+        setPage(name);
         this.refresh();
     },
 
