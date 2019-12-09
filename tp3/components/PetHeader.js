@@ -21,6 +21,7 @@ class Header extends PetElement {
                 <li class="nav-item ">
                     <pet-link 
                         class="nav-link"
+                        style="padding: 0px"
                         name="${page.name}" 
                         render="${page.renderName}"
                     ></pet-link>
