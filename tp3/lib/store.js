@@ -125,11 +125,49 @@ function getTargetEntity() {
     return searchResult[0];
 }
 
+function removeRelation(model, relationName) {
+    const oldValue = model[relationName];
+    const oldRelationParent = store[relationName + "s"].filter(el => el.id == oldValue)[0];
+    const oldRelationParentIndex = store[relationName + "s"].findIndex(el => el.id === oldRelationParent.id);
+
+    // remove o id do model atual na relation antiga
+    store[relationName + "s"][oldRelationParentIndex] = {
+        ...oldRelationParent,
+        [store.currentPage]: oldRelationParent[store.currentPage].filter(el => el != model.id)
+    }
+}
+
+function addRelation(model, relationName, newValue) {
+    const newRelationParent = store[relationName + "s"].filter(el => el.id == newValue)[0];
+    const newRelationParentIndex = store[relationName + "s"].findIndex(el => el.id === newRelationParent.id);
+
+    // adiciona o id do model atual na relation nova
+    store[relationName + "s"][newRelationParentIndex] = {
+        ...newRelationParent,
+        [store.currentPage]: [
+            ...newRelationParent[store.currentPage] ? newRelationParent[store.currentPage] : [],
+            model.id
+        ]
+    }
+}
+
 function createEntity(data) {
-    store[store.currentPage].push({
+    const model = {
         ...data,
         id: Math.random().toString(36).substring(2, 6),
-    });
+    }
+
+    const page = getCurrentPage();
+
+    if (page.relations) {
+        for (const relationName in page.relations) {
+            if (page.relations[relationName] == MANY_TO_ONE) {
+                addRelation(model, relationName, data[relationName])
+            }
+        }
+    } 
+
+    store[store.currentPage].push(model);
 
     console.log("criado!");
     persistInLocalStore();
@@ -142,6 +180,22 @@ function mutateTargetEntity(data) {
 
     const modelIndex = store[store.currentPage].findIndex(el => el.id === model.id);
     
+    const page = getCurrentPage();
+
+    if (page.relations) {
+        for (const relationName in page.relations) {
+
+            // caso o valor da relation nao tenha alterado ignorar
+            if (model[relationName] === data[relationName]) {
+                continue;
+            }
+
+            removeRelation(model, relationName);
+            addRelation(model, relationName, data[relationName])
+            
+        }
+    } 
+
     store[store.currentPage][modelIndex] = {
         ...model,
         ...data
@@ -154,13 +208,26 @@ function mutateTargetEntity(data) {
 }
 
 function deleteEntity(id) {
-    const modelIndex = store[store.currentPage].findIndex(el => el.id == id);
+    const page = getCurrentPage();
 
-    if (modelIndex < 0) {
-        return;
-    }
+    if (page.relations) {
+        const model = store[store.currentPage].filter(el => el.id == id)[0];
+
+        for (const relationName in page.relations) {
+            switch (page.relations[relationName]) {
+                case ONE_TO_MANY:
+                    const currentPageSingular = store.currentPage.substring(0, store.currentPage.length - 1);
+                    store[relationName] = store[relationName].filter(el => el[currentPageSingular] != id)
+                    break;
+
+                case MANY_TO_ONE:
+                    removeRelation(model, relationName);
+                    break;
+            }
+        }
+    } 
     
-    delete store[store.currentPage][modelIndex];
+    store[store.currentPage] = store[store.currentPage].filter(el => el.id != id);
 
     console.log("deletado!");
     persistInLocalStore();
