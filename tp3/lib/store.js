@@ -1,10 +1,25 @@
+const ONE_TO_MANY = "one-to-many";
+const MANY_TO_ONE = "many-to-one";
+
 let store = {
     pages: [
         { renderName: 'Home',               name: 'home' },
         { renderName: 'Usuários',           name: 'usuarios' },
-        { renderName: 'Consultas',          name: 'consultas' },
+        { 
+            renderName: 'Consultas',
+            name: 'consultas',
+            relations: {
+                vacinas: ONE_TO_MANY
+            }
+        },
         { renderName: 'Cupom de Descontos', name: 'cupoms' },
-        { renderName: 'Vacinas',            name: 'vacinas' },
+        { 
+            renderName: 'Vacinas',
+            name: 'vacinas',
+            relations: {
+                consulta: MANY_TO_ONE
+            }
+        },
         { renderName: 'Tosas',              name: 'tosas' },
     ],
 
@@ -23,6 +38,38 @@ let store = {
         },
     ],
 
+    consultas: [
+        {
+            id: "as1d",
+            name: "Consulta Semanal",
+            price: 200,
+            vacinas: [
+                "fqsa", "fqsdbw"
+            ],
+            // pet
+        },
+        {
+            id: "uilu",
+            name: "Consulta Diária",
+            price: 75,
+            // pet
+        },
+    ],
+
+    vacinas: [
+        {
+            id: "fqsa",
+            name: "Gripe",
+            price: 159,
+            consulta: "as1d",
+        },
+        {
+            id: "fqsdbw",
+            name: "Aids Felina",
+            price: 25,
+            consulta: "as1d",
+        },
+    ],
 
     cupoms: [
         {
