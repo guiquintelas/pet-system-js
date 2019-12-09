@@ -65,6 +65,16 @@ class PetTable extends PetElement {
 
     getTableBody() {
         const items = store[this.props["model-name"]];
+
+        if (items.length == 0) {
+            return /* template */`
+                <tr>
+                    <td colspan="200" style="text-align: center">
+                        Nenhum dado aqui
+                    </td>
+                </tr>
+            `
+        }
         
         return items.map(item => /* template */`
             <tr>
